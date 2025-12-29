@@ -18,7 +18,7 @@ public class TrustAccountTestRepository implements TrustAccountRepository {
 
     @Override
     public Optional<TrustAccount> findById(Long accountId) {
-        return trustAccounts.stream().filter(acc -> acc.id == accountId).findFirst();
+        return trustAccounts.stream().filter(acc -> acc.isSameId(accountId)).findFirst();
     }
 
 }

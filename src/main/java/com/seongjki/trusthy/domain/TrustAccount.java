@@ -7,7 +7,7 @@ public class TrustAccount {
         this.trust = TrustEvent.CREATE_MEMBER.delta;
     }
 
-    public final long id;
+    private final long id;
 
     private float trust;
 
@@ -15,8 +15,8 @@ public class TrustAccount {
         this.trust += delta;
     }
 
-    public float check() {
-        return trust;
+    public boolean isSameId(long trustId) {
+        return this.id == trustId;
     }
 
 }
