@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class TrustLog {
 
-    public TrustLog(long trustAccountId, float delta, String reason) {
+    public TrustLog(long trustAccountId, float delta, String reason, LocalDateTime createdAt) {
         this.trustAccountId = trustAccountId;
         this.delta = delta;
         this.reason = reason;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt;
     }
 
     private long trustAccountId;

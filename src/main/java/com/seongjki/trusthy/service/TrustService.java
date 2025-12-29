@@ -26,12 +26,13 @@ public class TrustService {
 
     public ApplyEventResponse applyEvent(long accountId, TrustEvent trustEvent) {
         TrustAccount trustAccount = trustAccountRepository.findById(accountId).orElseThrow();
-        TrustLog log = new TrustLog(accountId, trustEvent.delta, trustEvent.reason);
+        LocalDateTime now = LocalDateTime.now(clock);
+        TrustLog log = new TrustLog(accountId, trustEvent.delta, trustEvent.reason, now);
 
         trustAccount.apply(trustEvent.delta);
         trustLogRepository.save(log);
 
-        return new ApplyEventResponse(accountId, true, LocalDateTime.now(clock));
+        return new ApplyEventResponse(accountId, true, now);
     }
 
 }
