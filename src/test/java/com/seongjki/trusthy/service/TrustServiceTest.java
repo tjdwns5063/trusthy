@@ -30,7 +30,7 @@ public class TrustServiceTest {
     }
 
     @Test
-    void applyTrustByEventEvent() {
+    void applyTrustByEvent() {
         //given
         TrustEvent trustEvent = TrustEvent.CREATE_MEMBER;
         TrustAccount account = new TrustAccount(1L);
