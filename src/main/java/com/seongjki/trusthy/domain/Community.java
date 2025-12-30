@@ -83,12 +83,12 @@ public class Community {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Community community = (Community) o;
-        return id == community.id && capacity == community.capacity && Objects.equals(name, community.name) && Objects.equals(members, community.members) && grade == community.grade;
+        return id == community.id && capacity == community.capacity && Objects.equals(name, community.name) &&  grade == community.grade;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, capacity, members, grade);
+        return Objects.hash(id, name, capacity, grade);
     }
 
 }
