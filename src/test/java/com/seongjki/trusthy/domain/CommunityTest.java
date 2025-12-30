@@ -21,6 +21,12 @@ public class CommunityTest {
     }
 
     @Test
+    void createFailNegativeCapacity() {
+        assertThatThrownBy(() -> new Community(1L, "default_test", -1))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     void enterSuccess() {
         //given
         community = new Community(1L, "default_test", 100);

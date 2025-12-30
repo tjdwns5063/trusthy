@@ -16,7 +16,12 @@ public class Community {
 
     private CommunityGrade grade;
 
+    private static final int MIN_CAPACITY = 5;
+
     public Community(long id, String name, int capacity) {
+        if (capacity < MIN_CAPACITY) {
+            throw new IllegalArgumentException();
+        }
         this.id = id;
         this.name = name;
         this.capacity = capacity;
@@ -25,6 +30,9 @@ public class Community {
     }
 
     public Community(long id, String name, int capacity, List<Member> members, CommunityGrade grade) {
+        if (capacity < MIN_CAPACITY) {
+            throw new IllegalArgumentException();
+        }
         this.id = id;
         this.name = name;
         this.capacity = capacity;
