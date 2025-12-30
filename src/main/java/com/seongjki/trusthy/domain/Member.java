@@ -9,11 +9,17 @@ public class Member {
     private String nickname;
 
     public Member(long id, String nickname) {
+        if (nickname.isBlank()) {
+            throw new IllegalArgumentException("Nickname must not be empty");
+        }
+
         this.id = id;
         this.nickname = nickname;
     }
 
     public boolean hasSameNickname(Member member) {
+        if (member == null) return false;
+
         return this.nickname.equals(member.nickname);
     }
 
