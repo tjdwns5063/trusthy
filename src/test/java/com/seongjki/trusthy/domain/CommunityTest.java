@@ -74,4 +74,13 @@ public class CommunityTest {
                 .hasMessage("Duplicate Member's nickname");
     }
 
+    @Test
+    void memberNull() {
+        community = new Community(1L, "default_test", 100);
+
+        assertThatThrownBy(() -> community.enter(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("member is null");
+    }
+
 }

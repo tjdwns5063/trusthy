@@ -39,6 +39,10 @@ public class Community {
     }
 
     public void enter(Member member) {
+        if (member == null) {
+            throw new IllegalArgumentException("member is null");
+        }
+
         if (members.size() >= capacity) {
             throw new RuntimeException("Community capacity is full");
         }
