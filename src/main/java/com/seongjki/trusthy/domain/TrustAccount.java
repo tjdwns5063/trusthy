@@ -1,5 +1,8 @@
 package com.seongjki.trusthy.domain;
 
+import lombok.ToString;
+
+@ToString
 public class TrustAccount {
 
     public TrustAccount() {

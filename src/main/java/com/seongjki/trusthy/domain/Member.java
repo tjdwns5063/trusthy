@@ -1,7 +1,10 @@
 package com.seongjki.trusthy.domain;
 
+import lombok.ToString;
+
 import java.util.Objects;
 
+@ToString
 public class Member {
 
     private long id;
