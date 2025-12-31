@@ -42,6 +42,13 @@ public class Community {
         LOW,
     }
 
+    public void assignId(Long id){
+        if (this.id != null) {
+            return;
+        }
+        this.id = id;
+    }
+
     public void enter(Member member, CommunityPolicy policy) {
         policy.validateEnter(this, member);
 
@@ -59,6 +66,10 @@ public class Community {
 
     public int getSize() {
         return members.size();
+    }
+
+    public boolean isSameId(long id) {
+        return this.id.equals(id);
     }
 
     @Override
