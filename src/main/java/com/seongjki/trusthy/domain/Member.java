@@ -10,12 +10,11 @@ public class Member {
 
     private TrustAccount trustAccount;
 
-    public Member(long id, String nickname, TrustAccount trustAccount) {
+    public Member(String nickname, TrustAccount trustAccount) {
         if (nickname.isBlank()) {
             throw new IllegalArgumentException("Nickname must not be empty");
         }
 
-        this.id = id;
         this.nickname = nickname;
         this.trustAccount = trustAccount;
     }

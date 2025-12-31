@@ -2,14 +2,20 @@ package com.seongjki.trusthy.domain;
 
 public class TrustAccount {
 
-    public TrustAccount(long id) {
-        this.id = id;
+    public TrustAccount() {
         this.trust = TrustEvent.CREATE_MEMBER.delta;
     }
 
-    private final long id;
+    private Long id;
 
     private float trust;
+
+    public void assignId(long id) {
+        if (this.id != null) {
+            return ;
+        }
+        this.id = id;
+    }
 
     public void apply(float delta) {
         this.trust += delta;

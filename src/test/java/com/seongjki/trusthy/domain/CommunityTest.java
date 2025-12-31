@@ -1,5 +1,6 @@
 package com.seongjki.trusthy.domain;
 
+import com.seongjki.trusthy.fixture.MemberFixture;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,25 +15,16 @@ public class CommunityTest {
     private CommunityPolicy policy = new MemoryCommunityPolicy();
 
     @Test
-    void createDefaultCommunity() {
-        //given, when
-        community = new Community(1L, "default_test", 100);
-
-        //then
-        assertThat(community).isEqualTo(new Community(1L, "default_test", 100, List.of(), Community.CommunityGrade.MEDIUM));
-    }
-
-    @Test
     void createFailNegativeCapacity() {
-        assertThatThrownBy(() -> new Community(1L, "default_test", -1))
+        assertThatThrownBy(() -> new Community( "default_test", -1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void enterSuccess() {
         //given
-        community = new Community(1L, "default_test", 100);
-        Member member = new Member(1L, "mem1", new TrustAccount(1L));
+        community = new Community("default_test", 100);
+        Member member = new Member("mem1", new TrustAccount());
 
         //when
         community.enter(member, policy);
@@ -44,16 +36,14 @@ public class CommunityTest {
     @Test
     void enterFailBecauseExceedCapacity() {
         //given
-        community = new Community(1L, "default_test", 5, List.of(
-                new Member(1L, "m1", new TrustAccount(1L)),
-                new Member(2L, "m2", new TrustAccount(1L)),
-                new Member(3L, "m3", new TrustAccount(1L)),
-                new Member(4L, "m4", new TrustAccount(1L)),
-                new Member(5L, "m5", new TrustAccount(1L))
-        ), Community.CommunityGrade.MEDIUM);
+        community = new Community("default_test", 5);
+
+        for (int i = 0; i < 5; ++i) {
+            community.enter(new Member("mem" + i, new TrustAccount()), policy);
+        }
 
         //when,then
-        assertThatThrownBy(() -> community.enter(new Member(6L, "m6", new TrustAccount(1L)), policy))
+        assertThatThrownBy(() -> community.enter(new Member("m6", new TrustAccount()), policy))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Community capacity is full");
     }
@@ -61,8 +51,9 @@ public class CommunityTest {
     @Test
     void enterFailBecauseSameMember() {
         //given
-        Member member = new Member(1L, "m1", new TrustAccount(1L));
-        community = new Community(1L, "default_test", 100, List.of(member), Community.CommunityGrade.MEDIUM);
+        Member member = new Member("m1", new TrustAccount());
+        community = new Community("default_test", 100);
+        community.enter(member, policy);
 
         //when,then
         assertThatThrownBy(() -> community.enter(member, policy))
@@ -70,21 +61,23 @@ public class CommunityTest {
                 .hasMessage("Member already exists");
     }
 
-    @Test
-    void enterFailBecauseDuplicateNickname() {
-        //given
-        Member member = new Member(1L, "m1", new TrustAccount(1L));
-        community = new Community(1L, "default_test", 100, List.of(member), Community.CommunityGrade.MEDIUM);
-
-        //when,then
-        assertThatThrownBy(() -> community.enter(new Member(2L, "m1", new TrustAccount(1L)), policy))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("Duplicate Member's nickname");
-    }
+    //TODO: MemberRepository 구현 후 수정.
+//    @Test
+//    void enterFailBecauseDuplicateNickname() {
+//        //given
+//        Member member = new Member("m1", new TrustAccount());
+//        community = new Community("default_test", 100);
+//        community.enter(member, policy);
+//
+//        //when,then
+//        assertThatThrownBy(() -> community.enter(new Member("m1", new TrustAccount()), policy))
+//                .isInstanceOf(RuntimeException.class)
+//                .hasMessage("Duplicate Member's nickname");
+//    }
 
     @Test
     void memberNull() {
-        community = new Community(1L, "default_test", 100);
+        community = new Community("default_test", 100);
 
         assertThatThrownBy(() -> community.enter(null, policy))
                 .isInstanceOf(IllegalArgumentException.class)

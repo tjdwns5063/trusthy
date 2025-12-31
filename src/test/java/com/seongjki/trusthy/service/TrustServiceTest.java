@@ -33,7 +33,7 @@ public class TrustServiceTest {
     void applyTrustByEvent() {
         //given
         TrustEvent trustEvent = TrustEvent.CREATE_MEMBER;
-        TrustAccount account = new TrustAccount(1L);
+        TrustAccount account = new TrustAccount();
         trustAccountTestRepository.save(account);
 
         //when
