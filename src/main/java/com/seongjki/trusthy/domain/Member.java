@@ -8,13 +8,16 @@ public class Member {
 
     private String nickname;
 
-    public Member(long id, String nickname) {
+    private TrustAccount trustAccount;
+
+    public Member(long id, String nickname, TrustAccount trustAccount) {
         if (nickname.isBlank()) {
             throw new IllegalArgumentException("Nickname must not be empty");
         }
 
         this.id = id;
         this.nickname = nickname;
+        this.trustAccount = trustAccount;
     }
 
     public boolean hasSameNickname(Member member) {

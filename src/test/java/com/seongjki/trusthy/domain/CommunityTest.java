@@ -32,7 +32,7 @@ public class CommunityTest {
     void enterSuccess() {
         //given
         community = new Community(1L, "default_test", 100);
-        Member member = new Member(1L, "mem1");
+        Member member = new Member(1L, "mem1", new TrustAccount(1L));
 
         //when
         community.enter(member, policy);
@@ -45,15 +45,15 @@ public class CommunityTest {
     void enterFailBecauseExceedCapacity() {
         //given
         community = new Community(1L, "default_test", 5, List.of(
-                new Member(1L, "m1"),
-                new Member(2L, "m2"),
-                new Member(3L, "m3"),
-                new Member(4L, "m4"),
-                new Member(5L, "m5")
+                new Member(1L, "m1", new TrustAccount(1L)),
+                new Member(2L, "m2", new TrustAccount(1L)),
+                new Member(3L, "m3", new TrustAccount(1L)),
+                new Member(4L, "m4", new TrustAccount(1L)),
+                new Member(5L, "m5", new TrustAccount(1L))
         ), Community.CommunityGrade.MEDIUM);
 
         //when,then
-        assertThatThrownBy(() -> community.enter(new Member(6L, "m6"), policy))
+        assertThatThrownBy(() -> community.enter(new Member(6L, "m6", new TrustAccount(1L)), policy))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Community capacity is full");
     }
@@ -61,7 +61,7 @@ public class CommunityTest {
     @Test
     void enterFailBecauseSameMember() {
         //given
-        Member member = new Member(1L, "m1");
+        Member member = new Member(1L, "m1", new TrustAccount(1L));
         community = new Community(1L, "default_test", 100, List.of(member), Community.CommunityGrade.MEDIUM);
 
         //when,then
@@ -73,11 +73,11 @@ public class CommunityTest {
     @Test
     void enterFailBecauseDuplicateNickname() {
         //given
-        Member member = new Member(1L, "m1");
+        Member member = new Member(1L, "m1", new TrustAccount(1L));
         community = new Community(1L, "default_test", 100, List.of(member), Community.CommunityGrade.MEDIUM);
 
         //when,then
-        assertThatThrownBy(() -> community.enter(new Member(2L, "m1"), policy))
+        assertThatThrownBy(() -> community.enter(new Member(2L, "m1", new TrustAccount(1L)), policy))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Duplicate Member's nickname");
     }
