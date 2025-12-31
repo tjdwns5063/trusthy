@@ -18,26 +18,14 @@ public class Community {
 
     private static final int MIN_CAPACITY = 5;
 
-    public Community(long id, String name, int capacity) {
+    public Community(String name, int capacity) {
         if (capacity < MIN_CAPACITY) {
             throw new IllegalArgumentException();
         }
-        this.id = id;
         this.name = name;
         this.capacity = capacity;
         this.members = new ArrayList<>();
         this.grade = CommunityGrade.MEDIUM;
-    }
-
-    public Community(long id, String name, int capacity, List<Member> members, CommunityGrade grade) {
-        if (capacity < MIN_CAPACITY) {
-            throw new IllegalArgumentException();
-        }
-        this.id = id;
-        this.name = name;
-        this.capacity = capacity;
-        this.members = members;
-        this.grade = grade;
     }
 
     public boolean isExceedCapacity() {
