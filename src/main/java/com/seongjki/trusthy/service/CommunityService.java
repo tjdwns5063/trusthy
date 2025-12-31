@@ -20,9 +20,10 @@ public class CommunityService {
 
     private CommunityPolicy communityPolicy;
 
-    public CommunityService(CommunityRepository communityRepository, MemberRepository memberRepository, CommunityPolicy communityPolicy) {
+    public CommunityService(CommunityRepository communityRepository, MemberRepository memberRepository, TrustAccountRepository trustAccountRepository, CommunityPolicy communityPolicy) {
         this.communityRepository = communityRepository;
         this.memberRepository = memberRepository;
+        this.trustAccountRepository = trustAccountRepository;
         this.communityPolicy = communityPolicy;
     }
 
@@ -35,12 +36,15 @@ public class CommunityService {
         memberRepository.save(member);
         communityRepository.save(community);
 
+        community.enter(member, communityPolicy);
+
         return CreateCommunityResponseMapper.from(community);
     }
 
-    public CommunityResponse enterCommunity(long communityId, long memberId) {
+    public CommunityResponse enterCommunity(long communityId, String nickname) {
         Community community = communityRepository.find(communityId).orElseThrow();
-        Member member = memberRepository.find(memberId).orElseThrow();
+        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount());
+        Member member = memberRepository.save(new Member(nickname, trustAccount));
 
         community.enter(member, communityPolicy);
 
