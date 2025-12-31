@@ -40,28 +40,18 @@ public class Community {
         this.grade = grade;
     }
 
+    public boolean isExceedCapacity() {
+        return members.size() >= capacity;
+    }
+
     public enum CommunityGrade {
         HIGH,
         MEDIUM,
         LOW,
     }
 
-    public void enter(Member member) {
-        if (member == null) {
-            throw new IllegalArgumentException("member is null");
-        }
-
-        if (members.size() >= capacity) {
-            throw new RuntimeException("Community capacity is full");
-        }
-
-        if (members.contains(member)) {
-            throw new RuntimeException("Member already exists");
-        }
-
-        if (hasNickname(member)) {
-            throw new RuntimeException("Duplicate Member's nickname");
-        }
+    public void enter(Member member, CommunityPolicy policy) {
+        policy.validateEnter(this, member);
 
         members.add(member);
     }

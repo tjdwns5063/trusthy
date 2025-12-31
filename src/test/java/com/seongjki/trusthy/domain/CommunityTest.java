@@ -11,6 +11,8 @@ public class CommunityTest {
 
     private Community community;
 
+    private CommunityPolicy policy = new MemoryCommunityPolicy();
+
     @Test
     void createDefaultCommunity() {
         //given, when
@@ -33,7 +35,7 @@ public class CommunityTest {
         Member member = new Member(1L, "mem1");
 
         //when
-        community.enter(member);
+        community.enter(member, policy);
 
         //then
         assertThat(community.contains(member)).isTrue();
@@ -51,7 +53,7 @@ public class CommunityTest {
         ), Community.CommunityGrade.MEDIUM);
 
         //when,then
-        assertThatThrownBy(() -> community.enter(new Member(6L, "m6")))
+        assertThatThrownBy(() -> community.enter(new Member(6L, "m6"), policy))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Community capacity is full");
     }
@@ -63,7 +65,7 @@ public class CommunityTest {
         community = new Community(1L, "default_test", 100, List.of(member), Community.CommunityGrade.MEDIUM);
 
         //when,then
-        assertThatThrownBy(() -> community.enter(member))
+        assertThatThrownBy(() -> community.enter(member, policy))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Member already exists");
     }
@@ -75,7 +77,7 @@ public class CommunityTest {
         community = new Community(1L, "default_test", 100, List.of(member), Community.CommunityGrade.MEDIUM);
 
         //when,then
-        assertThatThrownBy(() -> community.enter(new Member(2L, "m1")))
+        assertThatThrownBy(() -> community.enter(new Member(2L, "m1"), policy))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Duplicate Member's nickname");
     }
@@ -84,7 +86,7 @@ public class CommunityTest {
     void memberNull() {
         community = new Community(1L, "default_test", 100);
 
-        assertThatThrownBy(() -> community.enter(null))
+        assertThatThrownBy(() -> community.enter(null, policy))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("member is null");
     }
