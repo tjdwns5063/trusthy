@@ -64,7 +64,7 @@ public class Community {
     }
 
     public boolean isSameId(UUID id) {
-        return this.id.equals(id);
+        return Objects.equals(this.id, id);
     }
 
     @Override

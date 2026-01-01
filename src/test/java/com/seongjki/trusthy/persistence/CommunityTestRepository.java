@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class CommunityTestRepository implements CommunityRepository {
-
-    private final AtomicLong sequence = new AtomicLong();
 
     private final List<Community> communityList = new ArrayList<>();
 

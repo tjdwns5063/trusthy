@@ -24,7 +24,7 @@ public class CommunityTest {
     @Test
     void enterSuccess() {
         //given
-        community = new Community(UUID.randomUUID(),"default_test", 100);
+        community = new Community(UUID.randomUUID(), "default_test", 100);
         Member member = new Member(UUID.randomUUID(), "mem1", new TrustAccount(UUID.randomUUID()));
 
         //when
@@ -37,7 +37,7 @@ public class CommunityTest {
     @Test
     void enterFailBecauseExceedCapacity() {
         //given
-        community = new Community(UUID.randomUUID(),"default_test", 5);
+        community = new Community(UUID.randomUUID(), "default_test", 5);
 
         for (int i = 0; i < 5; ++i) {
             community.enter(new Member(UUID.randomUUID(), "mem" + i, new TrustAccount(UUID.randomUUID())), policy);
@@ -53,7 +53,7 @@ public class CommunityTest {
     void enterFailBecauseSameMember() {
         //given
         Member member = new Member(UUID.randomUUID(), "m1", new TrustAccount(UUID.randomUUID()));
-        community = new Community(UUID.randomUUID(),"default_test", 100);
+        community = new Community(UUID.randomUUID(), "default_test", 100);
         community.enter(member, policy);
 
         //when,then
@@ -78,7 +78,7 @@ public class CommunityTest {
 
     @Test
     void memberNull() {
-        community = new Community(UUID.randomUUID(),"default_test", 100);
+        community = new Community(UUID.randomUUID(), "default_test", 100);
 
         assertThatThrownBy(() -> community.enter(null, policy))
                 .isInstanceOf(IllegalArgumentException.class)
