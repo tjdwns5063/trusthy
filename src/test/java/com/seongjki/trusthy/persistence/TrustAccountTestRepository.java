@@ -11,7 +11,7 @@ public class TrustAccountTestRepository implements TrustAccountRepository {
 
     private final AtomicLong sequence = new AtomicLong();
 
-    private List<TrustAccount> trustAccounts = new ArrayList<>();
+    private final List<TrustAccount> trustAccounts = new ArrayList<>();
 
     @Override
     public TrustAccount save(TrustAccount trustAccount) {

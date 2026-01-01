@@ -5,7 +5,7 @@ import com.seongjki.trusthy.domain.CommunityPolicy;
 import com.seongjki.trusthy.domain.Member;
 import com.seongjki.trusthy.domain.TrustAccount;
 import com.seongjki.trusthy.dto.CommunityResponse;
-import com.seongjki.trusthy.dto.mapper.CreateCommunityResponseMapper;
+import com.seongjki.trusthy.dto.mapper.CommunityResponseMapper;
 import com.seongjki.trusthy.persistence.CommunityRepository;
 import com.seongjki.trusthy.persistence.MemberRepository;
 import com.seongjki.trusthy.persistence.TrustAccountRepository;
@@ -28,17 +28,13 @@ public class CommunityService {
     }
 
     public CommunityResponse createCommunity(String name, int capacity, String nickname) {
-        Community community = new Community(name, capacity);
-        TrustAccount trustAccount = new TrustAccount();
-        Member member = new Member(nickname, trustAccount);
-
-        trustAccountRepository.save(trustAccount);
-        memberRepository.save(member);
-        communityRepository.save(community);
+        Community community = communityRepository.save(new Community(name, capacity));
+        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount());
+        Member member = memberRepository.save(new Member(nickname, trustAccount));
 
         community.enter(member, communityPolicy);
 
-        return CreateCommunityResponseMapper.from(community);
+        return CommunityResponseMapper.from(community);
     }
 
     public CommunityResponse enterCommunity(long communityId, String nickname) {
@@ -48,7 +44,7 @@ public class CommunityService {
 
         community.enter(member, communityPolicy);
 
-        return CreateCommunityResponseMapper.from(community);
+        return CommunityResponseMapper.from(community);
     }
 
     //TODO: 탈퇴 기능 구현

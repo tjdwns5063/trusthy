@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class MemeberTestRepository implements MemberRepository {
+public class MemberTestRepository implements MemberRepository {
 
     private final AtomicLong sequence =  new AtomicLong();
 

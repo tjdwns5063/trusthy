@@ -11,7 +11,7 @@ public class CommunityTestRepository implements CommunityRepository {
 
     private final AtomicLong sequence = new AtomicLong();
 
-    private List<Community> communityList = new ArrayList<>();
+    private final List<Community> communityList = new ArrayList<>();
 
     @Override
     public Community save(Community community) {

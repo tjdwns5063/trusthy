@@ -3,9 +3,9 @@ package com.seongjki.trusthy.service;
 import com.seongjki.trusthy.domain.*;
 import com.seongjki.trusthy.dto.CommunityResponse;
 import com.seongjki.trusthy.fixture.CommunityFixture;
-import com.seongjki.trusthy.fixture.MemberFixture;
 import com.seongjki.trusthy.fixture.TrustAccountFixture;
 import com.seongjki.trusthy.persistence.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -22,9 +22,10 @@ public class CommunityServiceTest {
 
     private CommunityPolicy communityPolicy;
 
-    public CommunityServiceTest() {
+    @BeforeEach
+    public void init() {
         communityRepository = new CommunityTestRepository();
-        memberRepository = new MemeberTestRepository();
+        memberRepository = new MemberTestRepository();
         communityPolicy = new MemoryCommunityPolicy();
         trustAccountRepository = new TrustAccountTestRepository();
         communityService = new CommunityService(communityRepository, memberRepository, trustAccountRepository, communityPolicy);
@@ -48,7 +49,6 @@ public class CommunityServiceTest {
     void enterCommunitySuccess() {
         //given
         Community community = CommunityFixture.createCommunity(communityRepository, "c1", 100);
-        TrustAccount trustAccount = TrustAccountFixture.createTrustAccount(trustAccountRepository);
 
         //when
         CommunityResponse res = communityService.enterCommunity(community.getId(), "m1");
