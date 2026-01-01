@@ -2,27 +2,24 @@ package com.seongjki.trusthy.domain;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.UUID;
+import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 public class TrustAccount {
 
-    private Long id;
+    @Getter
+    private UUID id;
 
     private float trust;
 
     private TrustLevel level;
 
-    public TrustAccount() {
+    public TrustAccount(UUID id) {
+        this.id = id;
         this.trust = TrustEvent.CREATE_MEMBER.delta;
         this.calcLevel();
-    }
-
-    public void assignId(long id) {
-        if (this.id != null) {
-            return ;
-        }
-        this.id = id;
     }
 
     public void apply(float delta) {
@@ -30,7 +27,7 @@ public class TrustAccount {
         this.calcLevel();
     }
 
-    public boolean isSameId(long trustId) {
+    public boolean isSameId(UUID trustId) {
         return Objects.equals(this.id, trustId);
     }
 

@@ -9,6 +9,7 @@ import com.seongjki.trusthy.persistence.TrustLogRepository;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class TrustService {
 
@@ -24,7 +25,7 @@ public class TrustService {
         this.trustLogRepository = trustLogRepository;
     }
 
-    public ApplyEventResponse applyEvent(long accountId, TrustEvent trustEvent) {
+    public ApplyEventResponse applyEvent(UUID accountId, TrustEvent trustEvent) {
         TrustAccount trustAccount = trustAccountRepository.findById(accountId).orElseThrow();
         LocalDateTime now = LocalDateTime.now(clock);
         TrustLog log = new TrustLog(accountId, trustEvent.delta, trustEvent.reason, now);

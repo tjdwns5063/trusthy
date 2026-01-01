@@ -9,6 +9,7 @@ import com.seongjki.trusthy.dto.mapper.CommunityResponseMapper;
 import com.seongjki.trusthy.persistence.CommunityRepository;
 import com.seongjki.trusthy.persistence.MemberRepository;
 import com.seongjki.trusthy.persistence.TrustAccountRepository;
+import java.util.UUID;
 
 public class CommunityService {
 
@@ -29,7 +30,7 @@ public class CommunityService {
 
     public CommunityResponse createCommunity(String name, int capacity, String nickname) {
         Community community = communityRepository.save(new Community(name, capacity));
-        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount());
+        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount(UUID.randomUUID()));
         Member member = memberRepository.save(new Member(nickname, trustAccount));
 
         community.enter(member, communityPolicy);
@@ -39,7 +40,7 @@ public class CommunityService {
 
     public CommunityResponse enterCommunity(long communityId, String nickname) {
         Community community = communityRepository.find(communityId).orElseThrow();
-        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount());
+        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount(UUID.randomUUID()));
         Member member = memberRepository.save(new Member(nickname, trustAccount));
 
         community.enter(member, communityPolicy);
