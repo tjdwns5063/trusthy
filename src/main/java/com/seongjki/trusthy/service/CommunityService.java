@@ -29,7 +29,7 @@ public class CommunityService {
     }
 
     public CommunityResponse createCommunity(String name, int capacity, String nickname) {
-        Community community = communityRepository.save(new Community(name, capacity));
+        Community community = communityRepository.save(new Community(UUID.randomUUID(), name, capacity));
         TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount(UUID.randomUUID()));
         Member member = memberRepository.save(new Member(nickname, trustAccount));
 
@@ -38,7 +38,7 @@ public class CommunityService {
         return CommunityResponseMapper.from(community);
     }
 
-    public CommunityResponse enterCommunity(long communityId, String nickname) {
+    public CommunityResponse enterCommunity(UUID communityId, String nickname) {
         Community community = communityRepository.find(communityId).orElseThrow();
         TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount(UUID.randomUUID()));
         Member member = memberRepository.save(new Member(nickname, trustAccount));

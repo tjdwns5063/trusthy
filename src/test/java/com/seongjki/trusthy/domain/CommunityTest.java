@@ -17,14 +17,14 @@ public class CommunityTest {
 
     @Test
     void createFailNegativeCapacity() {
-        assertThatThrownBy(() -> new Community( "default_test", -1))
+        assertThatThrownBy(() -> new Community(UUID.randomUUID(), "default_test", -1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void enterSuccess() {
         //given
-        community = new Community("default_test", 100);
+        community = new Community(UUID.randomUUID(),"default_test", 100);
         Member member = new Member("mem1", new TrustAccount(UUID.randomUUID()));
 
         //when
@@ -37,7 +37,7 @@ public class CommunityTest {
     @Test
     void enterFailBecauseExceedCapacity() {
         //given
-        community = new Community("default_test", 5);
+        community = new Community(UUID.randomUUID(),"default_test", 5);
 
         for (int i = 0; i < 5; ++i) {
             community.enter(new Member("mem" + i, new TrustAccount(UUID.randomUUID())), policy);
@@ -53,7 +53,7 @@ public class CommunityTest {
     void enterFailBecauseSameMember() {
         //given
         Member member = new Member("m1", new TrustAccount(UUID.randomUUID()));
-        community = new Community("default_test", 100);
+        community = new Community(UUID.randomUUID(),"default_test", 100);
         community.enter(member, policy);
 
         //when,then
@@ -78,7 +78,7 @@ public class CommunityTest {
 
     @Test
     void memberNull() {
-        community = new Community("default_test", 100);
+        community = new Community(UUID.randomUUID(),"default_test", 100);
 
         assertThatThrownBy(() -> community.enter(null, policy))
                 .isInstanceOf(IllegalArgumentException.class)

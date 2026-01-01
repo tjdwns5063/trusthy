@@ -5,6 +5,7 @@ import com.seongjki.trusthy.domain.Community;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CommunityTestRepository implements CommunityRepository {
@@ -15,14 +16,12 @@ public class CommunityTestRepository implements CommunityRepository {
 
     @Override
     public Community save(Community community) {
-        community.assignId(sequence.incrementAndGet());
-
         communityList.add(community);
         return community;
     }
 
     @Override
-    public Optional<Community> find(long communityId) {
+    public Optional<Community> find(UUID communityId) {
         return communityList.stream().filter(community -> community.isSameId(communityId)).findFirst();
     }
 
