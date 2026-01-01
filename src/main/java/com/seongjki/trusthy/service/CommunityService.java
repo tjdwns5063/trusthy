@@ -1,9 +1,11 @@
 package com.seongjki.trusthy.service;
 
 import com.seongjki.trusthy.domain.Community;
+import com.seongjki.trusthy.domain.CommunityPolicy;
 import com.seongjki.trusthy.domain.Member;
 import com.seongjki.trusthy.domain.TrustAccount;
-import com.seongjki.trusthy.dto.CreateCommunityResponse;
+import com.seongjki.trusthy.dto.CommunityResponse;
+import com.seongjki.trusthy.dto.mapper.CommunityResponseMapper;
 import com.seongjki.trusthy.persistence.CommunityRepository;
 import com.seongjki.trusthy.persistence.MemberRepository;
 import com.seongjki.trusthy.persistence.TrustAccountRepository;
@@ -16,19 +18,35 @@ public class CommunityService {
 
     private TrustAccountRepository trustAccountRepository;
 
-    public CommunityService(CommunityRepository communityRepository, MemberRepository memberRepository) {
+    private CommunityPolicy communityPolicy;
+
+    public CommunityService(CommunityRepository communityRepository, MemberRepository memberRepository, TrustAccountRepository trustAccountRepository, CommunityPolicy communityPolicy) {
         this.communityRepository = communityRepository;
         this.memberRepository = memberRepository;
+        this.trustAccountRepository = trustAccountRepository;
+        this.communityPolicy = communityPolicy;
     }
 
-//    public CreateCommunityResponse createCommunity(String name, int capacity) {
-//        Community community = new Community(1L, name, capacity);
-//        TrustAccount trustAccount = new TrustAccount(1L);
-//        Member member = new Member(1L, "nickname", new TrustAccount(1L));
-//
-//        communityRepository.save(community);
-//        memberRepository.save(member);
-//        trustAccountRepository.save(new TrustAccount(1L));
-//    }
+    public CommunityResponse createCommunity(String name, int capacity, String nickname) {
+        Community community = communityRepository.save(new Community(name, capacity));
+        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount());
+        Member member = memberRepository.save(new Member(nickname, trustAccount));
+
+        community.enter(member, communityPolicy);
+
+        return CommunityResponseMapper.from(community);
+    }
+
+    public CommunityResponse enterCommunity(long communityId, String nickname) {
+        Community community = communityRepository.find(communityId).orElseThrow();
+        TrustAccount trustAccount = trustAccountRepository.save(new TrustAccount());
+        Member member = memberRepository.save(new Member(nickname, trustAccount));
+
+        community.enter(member, communityPolicy);
+
+        return CommunityResponseMapper.from(community);
+    }
+
+    //TODO: 탈퇴 기능 구현
 
 }

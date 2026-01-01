@@ -1,10 +1,15 @@
 package com.seongjki.trusthy.domain;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.Objects;
 
+@Getter
+@ToString
 public class Member {
 
-    private long id;
+    private Long id;
 
     private String nickname;
 
@@ -19,10 +24,21 @@ public class Member {
         this.trustAccount = trustAccount;
     }
 
+    public void assignId(long id) {
+        if (this.id != null) {
+            return;
+        }
+        this.id = id;
+    }
+
     public boolean hasSameNickname(Member member) {
         if (member == null) return false;
 
         return this.nickname.equals(member.nickname);
+    }
+
+    public boolean isSameId(long id) {
+        return this.id.equals(id);
     }
 
     @Override

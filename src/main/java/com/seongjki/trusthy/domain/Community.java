@@ -1,12 +1,16 @@
 package com.seongjki.trusthy.domain;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 public class Community {
 
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -38,6 +42,13 @@ public class Community {
         LOW,
     }
 
+    public void assignId(Long id){
+        if (this.id != null) {
+            return;
+        }
+        this.id = id;
+    }
+
     public void enter(Member member, CommunityPolicy policy) {
         policy.validateEnter(this, member);
 
@@ -55,6 +66,10 @@ public class Community {
 
     public int getSize() {
         return members.size();
+    }
+
+    public boolean isSameId(long id) {
+        return this.id.equals(id);
     }
 
     @Override

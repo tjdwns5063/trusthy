@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TrustLogTestRepository implements TrustLogRepository {
 
-    private List<TrustLog> logs = new ArrayList<>();
+    private final List<TrustLog> logs = new ArrayList<>();
 
     @Override
     public TrustLog save(TrustLog trustLog) {
