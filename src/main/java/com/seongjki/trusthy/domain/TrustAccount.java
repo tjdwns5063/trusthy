@@ -36,27 +36,34 @@ public class TrustAccount {
     }
 
     public enum TrustLevel {
-        EX_HIGH(25.0f,Float.MAX_VALUE),
-        HIGH(15.0f, 25.0f),
-        MEDIUM(5.0f, 15.0f),
-        LOW(-5.0f,5.0f),
-        EX_LOW(-15.0f, -5.0f),
-        RESTRICTED(Float.MIN_VALUE, -15.0f);
+        EX_HIGH(25.0,Double.MAX_VALUE),
+        HIGH(15.0, 25.0),
+        MEDIUM(5.0, 15.0),
+        LOW(-5.0,5.0),
+        EX_LOW(-15.0, -5.0),
+        RESTRICTED(Double.NEGATIVE_INFINITY , -15.0);
 
-        public final float min;
+        public final double min;
 
-        public final float max;
+        public final double max;
 
-        TrustLevel(float min, float max) {
+        TrustLevel(double min, double max) {
             this.max = max;
             this.min = min;
         }
 
-        public static TrustLevel of(float trust) {
+        public static TrustLevel of(double trust) {
             return Arrays.stream(TrustLevel.values())
                     .filter(l -> trust >= l.min && trust < l.max)
                     .findFirst()
                     .orElseThrow();
+        }
+
+        public double getWeight() {
+            if (this == TrustLevel.RESTRICTED) {
+                return this.max - 10;
+            }
+            return this.min;
         }
 
     }
