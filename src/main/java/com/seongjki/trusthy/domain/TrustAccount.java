@@ -41,7 +41,7 @@ public class TrustAccount {
         MEDIUM(5.0, 15.0),
         LOW(-5.0,5.0),
         EX_LOW(-15.0, -5.0),
-        RESTRICTED(Double.MIN_VALUE, -15.0);
+        RESTRICTED(Double.NEGATIVE_INFINITY , -15.0);
 
         public final double min;
 

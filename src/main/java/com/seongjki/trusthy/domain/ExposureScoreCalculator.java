@@ -1,20 +1,28 @@
 package com.seongjki.trusthy.domain;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 public class ExposureScoreCalculator {
 
-    private static final Double FRESHNESS_WEIGHT = 0.7;
+    private final Clock clock;
 
-    private static final Double COMMENT_WEIGHT = 0.3;
+    private static final Double FRESHNESS_WEIGHT = 0.4;
 
-    private static final Double HELPFUL_WEIGHT = 0.3;
+    private static final Double COMMENT_WEIGHT = 0.1;
 
-    private static final Double TRUST_WEIGHT = 0.7;
+    private static final Double HELPFUL_WEIGHT = 0.2;
+
+    private static final Double TRUST_WEIGHT = 0.3;
+
+    public ExposureScoreCalculator(Clock clock) {
+        this.clock = clock;
+    }
 
     public Double calculate(Post post) {
-        long freshness = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+9")) - post.getCreatedAt().toEpochSecond(ZoneOffset.of("+9"));
+        long freshness = post.getCreatedAt().toEpochSecond(ZoneOffset.of("+9")) -  LocalDateTime.now(clock).toEpochSecond(ZoneOffset.of("+9"));
         int commentCount = post.getCommentCount();
         int helpfulSum = post.getHelpfulSum();
         TrustAccount.TrustLevel trustLevel = post.getCreatorLevel();
