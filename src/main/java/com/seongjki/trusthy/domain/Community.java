@@ -1,5 +1,6 @@
 package com.seongjki.trusthy.domain;
 
+import java.util.UUID;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 @Getter
 public class Community {
 
-    private Long id;
+    private UUID id;
 
     private String name;
 
@@ -22,10 +23,11 @@ public class Community {
 
     private static final int MIN_CAPACITY = 5;
 
-    public Community(String name, int capacity) {
+    public Community(UUID id, String name, int capacity) {
         if (capacity < MIN_CAPACITY) {
             throw new IllegalArgumentException();
         }
+        this.id = id;
         this.name = name;
         this.capacity = capacity;
         this.members = new ArrayList<>();
@@ -40,13 +42,6 @@ public class Community {
         HIGH,
         MEDIUM,
         LOW,
-    }
-
-    public void assignId(Long id){
-        if (this.id != null) {
-            return;
-        }
-        this.id = id;
     }
 
     public void enter(Member member, CommunityPolicy policy) {
@@ -68,8 +63,8 @@ public class Community {
         return members.size();
     }
 
-    public boolean isSameId(long id) {
-        return this.id.equals(id);
+    public boolean isSameId(UUID id) {
+        return Objects.equals(this.id, id);
     }
 
     @Override

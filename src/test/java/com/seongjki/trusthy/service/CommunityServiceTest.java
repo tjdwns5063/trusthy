@@ -42,7 +42,7 @@ public class CommunityServiceTest {
         CommunityResponse res = communityService.createCommunity(name, capacity, memberNickname);
 
         //then
-        assertThat(res).isEqualTo(new CommunityResponse(1L, "c1", 100, 1, Community.CommunityGrade.MEDIUM));
+        assertThat(res).isEqualTo(new CommunityResponse(res.id(), "c1", 100, 1, Community.CommunityGrade.MEDIUM));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CommunityServiceTest {
         CommunityResponse res = communityService.enterCommunity(community.getId(), "m1");
 
         //then
-        assertThat(res).isEqualTo(new CommunityResponse(1L, "c1", 100, 1, Community.CommunityGrade.MEDIUM));
+        assertThat(res).isEqualTo(new CommunityResponse(res.id(), "c1", 100, 1, Community.CommunityGrade.MEDIUM));
     }
 
     //TODO: 실패 테스트 케이스 작성

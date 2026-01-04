@@ -1,5 +1,6 @@
 package com.seongjki.trusthy.domain;
 
+import java.util.UUID;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -9,26 +10,19 @@ import java.util.Objects;
 @ToString
 public class Member {
 
-    private Long id;
+    private UUID id;
 
     private String nickname;
 
     private TrustAccount trustAccount;
 
-    public Member(String nickname, TrustAccount trustAccount) {
+    public Member(UUID id, String nickname, TrustAccount trustAccount) {
         if (nickname.isBlank()) {
             throw new IllegalArgumentException("Nickname must not be empty");
         }
-
+        this.id = id;
         this.nickname = nickname;
         this.trustAccount = trustAccount;
-    }
-
-    public void assignId(long id) {
-        if (this.id != null) {
-            return;
-        }
-        this.id = id;
     }
 
     public boolean hasSameNickname(Member member) {
@@ -37,8 +31,8 @@ public class Member {
         return this.nickname.equals(member.nickname);
     }
 
-    public boolean isSameId(long id) {
-        return this.id.equals(id);
+    public boolean isSameId(UUID id) {
+        return Objects.equals(this.id, id);
     }
 
     @Override

@@ -1,9 +1,10 @@
 package com.seongjki.trusthy.dto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record ApplyEventResponse(
-        long accountId,
+        UUID accountId,
         boolean isSuccess,
         LocalDateTime appliedAt
 ) {

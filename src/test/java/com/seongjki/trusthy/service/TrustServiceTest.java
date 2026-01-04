@@ -5,6 +5,7 @@ import com.seongjki.trusthy.domain.TrustEvent;
 import com.seongjki.trusthy.dto.ApplyEventResponse;
 import com.seongjki.trusthy.persistence.TrustAccountTestRepository;
 import com.seongjki.trusthy.persistence.TrustLogTestRepository;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
@@ -33,14 +34,14 @@ public class TrustServiceTest {
     void applyTrustByEvent() {
         //given
         TrustEvent trustEvent = TrustEvent.CREATE_MEMBER;
-        TrustAccount account = new TrustAccount();
+        TrustAccount account = new TrustAccount(UUID.randomUUID());
         trustAccountTestRepository.save(account);
 
         //when
-        ApplyEventResponse response = trustService.applyEvent(1L, trustEvent);
+        ApplyEventResponse response = trustService.applyEvent(account.getId(), trustEvent);
 
         //then
-        assertThat(response).isEqualTo(new ApplyEventResponse(1L, true, LocalDateTime.of(2025,12,29,12,0,0)));
+        assertThat(response).isEqualTo(new ApplyEventResponse(account.getId(), true, LocalDateTime.of(2025,12,29,12,0,0)));
     }
 
 }
