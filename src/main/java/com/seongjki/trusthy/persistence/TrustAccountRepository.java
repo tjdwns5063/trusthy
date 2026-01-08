@@ -11,4 +11,6 @@ public interface TrustAccountRepository {
 
     Optional<TrustAccount> findById(UUID accountId);
 
+    Optional<TrustAccount> findByMemberId(UUID memberId);
+
 }

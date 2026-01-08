@@ -70,4 +70,27 @@ public class ReportService {
         );
     }
 
+    private ReportResultResponse process(UUID reportId, Report.ReportStatus status, String reason) {
+        Report report = reportRepository.findById(reportId).orElseThrow();
+        ReportResultLog reportResultLog = new ReportResultLog(
+                UUID.randomUUID(),
+                reportId,
+                LocalDateTime.now(clock),
+                reason,
+                report.getStatus(),
+                status
+        );
+
+        report.process(status);
+        reportResultLogRepository.save(reportResultLog);
+
+        if (status == Report.ReportStatus.ACCEPTED) {
+            publisher.publishEvent(new ReportAcceptedEvent(LocalDateTime.now(clock), report.getTargetId()));
+        }
+
+        return new ReportResultResponse(reportResultLog.getId(), reportResultLog.getReportId(),
+                reportResultLog.getCreatedAt(), reportResultLog.getReason(),
+                reportResultLog.getFromStatus(), reportResultLog.getToStatus());
+    }
+
 }

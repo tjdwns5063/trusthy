@@ -36,4 +36,15 @@ public class TrustService {
         return new ApplyEventResponse(accountId, true, now);
     }
 
+    public ApplyEventResponse applyEventByMemberId(UUID memberId, TrustEvent trustEvent) {
+        TrustAccount trustAccount = trustAccountRepository.findByMemberId(memberId).orElseThrow();
+        LocalDateTime now = LocalDateTime.now(clock);
+        TrustLog log = new TrustLog(trustAccount.getId(), trustEvent.delta, trustEvent.reason, now);
+
+        trustAccount.apply(trustEvent.delta);
+        trustLogRepository.save(log);
+
+        return new ApplyEventResponse(trustAccount.getId(), true, now);
+    }
+
 }
